@@ -103,8 +103,49 @@ public class Colosseum {
      *         <p>
      */
     public static Pokemon buildPokemon() {
-        Pokemon returnPokemon = null;
-        return returnPokemon;
+        Scanner s = new Scanner(System.in);
+        System.out.println("Select from the following Pokemon types: ");
+        System.out.println("1 - Electric Pokemon");
+        System.out.println("2 - Fire Pokemon");
+        System.out.println("3 - Water Pokemon");
+        int type = s.nextInt();
+        while (type > 3 || type < 0) {
+            System.out.println("Invalid. Try again: ");
+            System.out.println("1 - Electric Pokemon");
+            System.out.println("2 - Fire Pokemon");
+            System.out.println("3 - Water Pokemon");
+            type = s.nextInt();
+        }
+        Pokemon tempPokemon;
+        if (type == 1) {
+            tempPokemon = new ElectricPokemon();
+        } else if (type == 2) {
+            tempPokemon = new FirePokemon();
+        } else {
+            tempPokemon = new WaterPokemon();
+        }
+        System.out.println("What's the name of the Pokemon?");
+        tempPokemon.setName(s.next());
+        System.out.println("How many hit points will it have? (1-50): ");
+        tempPokemon.setHitPoints(s.nextInt());
+        while (tempPokemon.getHitPoints() < 1 || tempPokemon.getHitPoints() > MAX_HIT_POINTS) {
+            System.out.println("Sorry. Hit points must be between 1 and 50: ");
+            tempPokemon.setHitPoints(s.nextInt());
+        }
+        System.out.println("Split fifty points between attack level and defense level!");
+        System.out.print("Enter your attack level (1-49): ");
+        tempPokemon.setAttackLevel(s.nextInt());
+        while (tempPokemon.getAttackLevel() < 1 || tempPokemon.getAttackLevel() > 49) {
+            System.out.println("Sorry. The attack level must be between 1 and 49: ");
+            tempPokemon.setAttackLevel(s.nextInt());
+        }
+        System.out.print("Enter your defense level (1-" + (50 - tempPokemon.getAttackLevel()) + "): ");
+        tempPokemon.setDefenseLevel(s.nextInt());
+        while (tempPokemon.getDefenseLevel() < 1 || tempPokemon.getDefenseLevel() > (50 - tempPokemon.getAttackLevel())) {
+            System.out.println("Sorry. The defense level must be between 1 and "+ (50 - tempPokemon.getAttackLevel()) + ": ");
+            tempPokemon.setDefenseLevel(s.nextInt());
+        }
+        return tempPokemon;
     }
 
     /**
